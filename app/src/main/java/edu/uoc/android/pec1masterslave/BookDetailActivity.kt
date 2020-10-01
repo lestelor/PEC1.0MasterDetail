@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NavUtils
+import edu.uoc.android.pec1masterslave.model.BookModel
 
 class BookDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,8 @@ class BookDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book_detail)
         val toolbar = findViewById<Toolbar>(R.id.detail_toolbar)
         setSupportActionBar(toolbar)
-        val actionBarTittle = "Item " + intent.getStringExtra(BookDetailFragment.ARG_PARAM1)
+        val bookItem = intent.getSerializableExtra(BookDetailFragment.ARG_PARAM1) as BookModel.BookItem
+        val actionBarTittle = bookItem.titulo
         actionBar?.title =actionBarTittle
         supportActionBar?.title = actionBarTittle  // provide compatibility to all the versions
 
@@ -29,11 +31,11 @@ class BookDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
+
+            val bundle = Bundle()
+            bundle.putSerializable(BookDetailFragment.ARG_PARAM1, bookItem)
             val fragment = BookDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(BookDetailFragment.ARG_PARAM1,
-                        intent.getStringExtra(BookDetailFragment.ARG_PARAM1))
-                }
+                arguments = bundle
             }
 
             supportFragmentManager.beginTransaction()

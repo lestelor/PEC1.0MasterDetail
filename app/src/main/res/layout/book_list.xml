@@ -7,4 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BookListActivity"
-    tools:listitem="@layout/book_list_content" />
+    tools:listitem="@layout/book_list_content"
+
+
+
+
+/>
