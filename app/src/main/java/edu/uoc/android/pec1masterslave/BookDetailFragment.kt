@@ -25,15 +25,14 @@ private var item: String? = null
  * create an instance of this fragment.
  */
 class BookDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    // Rename and change types of parameters
     private var item: BookModel.BookItem? = null
     private var param2: String? = null
 
+    // get the parameters through the interface
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            //item = it.getString(ARG_PARAM1)
-            //item = arguments!!.getSerializable(BookDetailFragment.ARG_PARAM1) as ArrayList<*>?
             item = arguments!!.getSerializable(BookDetailFragment.ARG_PARAM1) as BookModel.BookItem?
             param2 = it.getString(ARG_PARAM2)
         }
@@ -48,11 +47,13 @@ class BookDetailFragment : Fragment() {
         val fragmentView = inflater.inflate(R.layout.fragment_book_detail, container, false)
 
         item?.let {
-            var resID = resources.getIdentifier(
+            // create an integuer wich contains the associated jpg
+            val resID = resources.getIdentifier(
                 "cartel" + item!!.identificador.toString(),
                 "drawable",
                 activity?.packageName
             )
+            // create view
             val dateFormat = DateFormat.format("dd/MM/yyyy", item!!.fechaPublicacion)
             Log.d("cfauli", "drawable " + resID)
             fragmentView.findViewById<ImageView>(R.id.fragment_book_image).setImageResource(resID)
@@ -66,14 +67,14 @@ class BookDetailFragment : Fragment() {
     companion object {
         const val ARG_PARAM1 = "param1"
         const val ARG_PARAM2 = "param2"
-         /* Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BookDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+        /* Use this factory method to create a new instance of
+        * this fragment using the provided parameters.
+        *
+        * @param param1 Parameter 1.
+        * @param param2 Parameter 2.
+        * @return A new instance of fragment BookDetailFragment.
+        */
+        /*
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             BookDetailFragment().apply {
@@ -82,19 +83,7 @@ class BookDetailFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+         */
     }
 
-    private fun getResId(resName: String): Int {
-        var defId = -1
-        return try {
-            val f= drawable::class.java.getDeclaredField(resName)
-            val def = drawable::class.java.getDeclaredField("transparent_flag")
-            defId = def.getInt(null)
-            f.getInt(null)
-        } catch (e: NoSuchFieldException) {
-            defId
-        } catch (e: IllegalAccessException) {
-            defId
-        }
-    }
 }

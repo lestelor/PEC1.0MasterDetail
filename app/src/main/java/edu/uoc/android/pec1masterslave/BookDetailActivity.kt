@@ -31,13 +31,13 @@ class BookDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-
+            // Send serialized info on the BookItem
             val bundle = Bundle()
             bundle.putSerializable(BookDetailFragment.ARG_PARAM1, bookItem)
             val fragment = BookDetailFragment().apply {
                 arguments = bundle
             }
-
+            // call the fragment
             supportFragmentManager.beginTransaction()
                 .add(R.id.book_detail_container, fragment)
                 .commit()
