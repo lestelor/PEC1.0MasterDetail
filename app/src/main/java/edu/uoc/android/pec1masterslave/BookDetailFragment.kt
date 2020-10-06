@@ -54,7 +54,7 @@ class BookDetailFragment : Fragment() {
                 activity?.packageName
             )
             // create view
-            val dateFormat = DateFormat.format("dd/MM/yyyy", item!!.fechaPublicacion)
+            val dateFormat = DateFormat.format("dd/MM/yyyy", item?.fechaPublicacion)
             Log.d("cfauli", "drawable " + resID)
             fragmentView.findViewById<ImageView>(R.id.fragment_book_image).setImageResource(resID)
             fragmentView.findViewById<TextView>(R.id.fragment_book_author).text = item!!.autor

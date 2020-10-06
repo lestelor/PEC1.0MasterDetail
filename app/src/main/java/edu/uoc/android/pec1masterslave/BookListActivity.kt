@@ -49,6 +49,7 @@ class BookListActivity : AppCompatActivity() {
         }
 
         // BookModel includes the information on different films
+        /* Already defined in BookModel
         BookModel.ITEM.add(0, BookModel.book1)
         BookModel.ITEM.add(1, BookModel.book2)
         BookModel.ITEM.add(2, BookModel.book3)
@@ -57,7 +58,7 @@ class BookListActivity : AppCompatActivity() {
         BookModel.ITEM.add(5, BookModel.book6)
         BookModel.ITEM.add(6, BookModel.book7)
         BookModel.ITEM.add(7, BookModel.book8)
-        BookModel.ITEM.add(8, BookModel.book9)
+        BookModel.ITEM.add(8, BookModel.book9)*/
 
         // Not used. Saved here as a comment on how to create a blured image. Also possible to reduce size.
         // Use image alpha intead
