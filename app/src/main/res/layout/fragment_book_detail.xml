@@ -7,7 +7,7 @@
     tools:context=".BookDetailFragment"
     android:layout_margin="16dp">
 
-
+    <!-- This part is replaced by the jetpackcompose in Fragment
     <ImageView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="date" />
 
-
+ -->
 
 
 
