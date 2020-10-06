@@ -85,25 +85,35 @@ class BookDetailFragment : Fragment() {
             "drawable",
             activity?.packageName
         )
-        // create view
         val dateFormat = DateFormat.format("dd/MM/yyyy", item.fechaPublicacion)
+
         Log.d("cfauli", "drawable " + resID)
+        ConstraintLayout {
+            val (image, text) = createRefs()
+            Row() {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    val imageModifier = Modifier
 
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                val imageModifier = Modifier
-                //.preferredHeight(180.dp)
-                //.fillMaxWidth()
+                    //.preferredHeight(180.dp)
+                    //.fillMaxWidth()
 
-                Image(
-                    imageResource(id = resID), modifier = imageModifier,
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(Modifier.preferredHeight(16.dp))
-                Text(item.descripccion!!)
+                    Image(
+                        imageResource(id = resID), modifier = imageModifier,
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(Modifier.preferredHeight(16.dp))
+                    Text(item.descripccion!!)
+                }
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(item.titulo!!)
+                    Text(dateFormat.toString())
+                }
             }
-
+        }
     }
 
     /*@Preview
