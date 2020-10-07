@@ -1,31 +1,42 @@
 package edu.uoc.android.pec1masterslave
 
 
-import android.R.drawable
+import android.graphics.Paint
 import android.os.Bundle
-import android.text.Html
 import android.text.format.DateFormat
+import android.text.style.ParagraphStyle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.StackView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ContainerAlpha
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Recomposer
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.ui.tooling.preview.Preview
 import edu.uoc.android.pec1masterslave.model.BookModel
-import java.io.File
+import java.time.format.TextStyle
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -70,7 +81,7 @@ class BookDetailFragment : Fragment() {
 
 
             (fragmentView as ViewGroup).setContent {
-                Hello("Jetpack Compose", item)
+                Hello(item)
             }
         }
 
@@ -78,7 +89,7 @@ class BookDetailFragment : Fragment() {
     }
 
     @Composable
-    fun Hello(name: String, item:BookModel.BookItem) = MaterialTheme {
+    fun Hello(item: BookModel.BookItem) = MaterialTheme {
         // create an integer which contains the associated jpg
         val resID = resources.getIdentifier(
             "cartel" + item.identificador.toString(),
@@ -88,39 +99,133 @@ class BookDetailFragment : Fragment() {
         val dateFormat = DateFormat.format("dd/MM/yyyy", item.fechaPublicacion)
 
         Log.d("cfauli", "drawable " + resID)
-        ConstraintLayout {
-            val (image, text) = createRefs()
-            Row() {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    val imageModifier = Modifier
 
-                    //.preferredHeight(180.dp)
-                    //.fillMaxWidth()
 
+        ConstraintLayout() {
+            val (image, column, text, text2) = createRefs()
+            val imageModifier = Modifier
+                .padding(16.dp)
+                .constrainAs(image) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+            Image(
+                imageResource(id = resID), modifier = imageModifier,
+                contentScale = ContentScale.Crop
+            )
+
+            Column(Modifier
+                .padding(16.dp)
+                .constrainAs(column) {
+                    start.linkTo(image.end)
+                    top.linkTo(parent.top)
+                }) {
+                Text(item.titulo.toString())
+                Text(item.autor.toString())
+                Text(item.urlPortada.toString())
+            }
+
+            Text(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .constrainAs(text) {
+                        start.linkTo(image.end)
+                        bottom.linkTo(image.bottom)
+                    },
+                text = dateFormat.toString()
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .constrainAs(text2) {
+                        start.linkTo(parent.start)
+                        top.linkTo(image.bottom)
+                    },
+                text = item.descripccion.toString()
+            )
+
+        }
+
+    }
+
+    @Preview ("BookDetailFragment")
+    @Composable
+    fun Preview() {
+        val resID = resources.getIdentifier(
+            "cartel" + BookModel.book1.identificador.toString(),
+            "drawable",
+            activity?.packageName
+        )
+        ConstraintLayout(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            val(image) = createRefs()
+            Column(){
+                Row(Modifier.fillMaxWidth()) {
                     Image(
-                        imageResource(id = resID), modifier = imageModifier,
+                        imageResource(R.drawable.cartel0),
                         contentScale = ContentScale.Crop
                     )
-                    Spacer(Modifier.preferredHeight(16.dp))
-                    Text(item.descripccion!!)
-                }
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(item.titulo!!)
-                    Text(dateFormat.toString())
+                    Box(Modifier.fillMaxSize()) {
+                        Text("Casdfsdf")
+                        Text("sfdfsd")
+                    }
                 }
             }
         }
     }
 
-    /*@Preview
+    @Preview ("BookDetailFragment")
     @Composable
-    fun DefaultPreview() {
-        Hello("Android", BookModel.BookItem(0))
-    }*/
+    fun Example() {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 2.dp
+        ) {
+            ConstraintLayout(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                val(column, divider, text) = createRefs()
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .constrainAs(column){
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Code")
+                    Text(text = "item.code")
+                }
+                Spacer(
+                    modifier = Modifier
+                        .preferredWidth(1.dp)
+                        .background(color = MaterialTheme.colors.onSurface.copy(0.12f))
+                        .constrainAs(divider){
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(column.end)
+                        }
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 34.dp)
+                        .constrainAs(text){
+                            start.linkTo(divider.end)
+                            end.linkTo(parent.end)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        },
+                    text = "item.name"
+                )
+            }
+        }
+    }
+
 
     companion object {
         const val ARG_PARAM1 = "param1"
@@ -145,6 +250,7 @@ class BookDetailFragment : Fragment() {
     }
 
 }
+
 
 
 
